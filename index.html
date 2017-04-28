@@ -36,7 +36,7 @@
   <div class="group">
     <label>
       <span>Coupon</span>
-      <input class="field" placeholder="Coupon" />
+      <input type="text" class="coupon" id="coupon" placeholder="COUPON99" />
     </label>
   </div>
 
@@ -118,6 +118,30 @@ card.addEventListener('change', function(event) {
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {
   event.preventDefault();
+
+  let real_amount = 5000;
+  if(document.getElementById("coupon").value === "ACM"){
+    real_amount = 4500;
+  }else{
+    real_amount = 5000;
+  }
+
+  // var token = request.body.stripeToken.id; // Using Express
+
+  //   // Charge the user's card:
+  //   var charge = stripe.charges.create({
+  //     amount: real_amount,
+  //     currency: "usd",
+  //     description: "Example charge",
+  //     source: token,
+  //   }, function(err, charge) {
+  //     // asynchronously called
+  //       if (err && err.type === 'StripeCardError') {
+  //           console.log(JSON.stringify(err, null, 2));
+  //       }
+  //       console.log("Completed payment!");
+  //       alert("Paid: "+JSON.stringify(real_amount))
+  //   });
 
   stripe.createToken(card).then(function(result) {
     if (result.error) {
