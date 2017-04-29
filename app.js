@@ -1,61 +1,41 @@
-// Set your secret key: remember to change this to your live secret key in production
-// See your keys here: https://dashboard.stripe.com/account/apikeys
+// const keyPublishable = process.env.PUBLISHABLE_KEY;
+// const keySecret = process.env.SECRET_KEY;
+const keyPublishable = "pk_test_6pRNASCoBOKtIshFeQd4XMUh";
+const keySecret = "sk_test_BQokikJOvBiI2HlWgH4olfQ2";
 
-//environmental variables and libraries
-const keyPublishable = process.env.PUBLISHABLE_KEY;
-const keySecret = process.env.SECRET_KEY;
+const bodyParser = require("express");
+const bodyParser = require("body-parser");
 
-const app = require("express")();
-const stripe = require("stripe")(keySecret); //or keySecret
+const app = express();
+app.use(express.static("public"));
 
-//route handlers
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
 app.get("/", (req, res) =>
-  res.render("index", {keyPublishable}));
+  res.render("index.html", {keyPublishable}));
 
 app.post("/charge", (req, res) => {
   let amount = 500;
+  
+  // Token is created using Stripe.js or Checkout!
+// Get the payment token submitted by the form:
+var token = request.body.stripeToken.id; // Using Express
 
-  stripe.customers.create({
-}).then(function(customer){
-  return stripe.customers.createSource(customer.id, {
-    source: {
-       object: 'card',
-       exp_month: exp_month,
-       exp_year: exp_year,
-       number: JSON.stringify(card-element),
-       cvc: cvc
-    }
+// Create a Charge:
+stripe.charges.create({
+  amount,
+  currency: "usd",
+  source: token,
+}, {
+  stripe_account: "{CONNECTED_STRIPE_ACCOUNT_ID}",
+})
+  .then(charge => res.send(charge))
+  .catch(err => {
+    console.log("Error:", err);
+    res.status(500).send({error: "Purchase Failed"});
   });
-}).then(function(source) {
-  return stripe.charges.create({
-    amount,
-    currency: 'usd',
-    customer: source.customer
-  });
-}).then(function(charge) {
-  // New charge created on a new customer
-}).catch(function(err) {
-  // Deal with an error
-});
+  console.log("Success!");
 });
 
-app.listen(4000, function(){
-  console.log("Stripe runs!");
-});
-
-stripe.coupons.create({
-  amount_off: 500,
-  duration: 'forever',
-  id: 'ACM'
-}, function(err, coupon) {
-  // asynchronously called
-  console.log(coupon);
-});
-
-stripe.coupons.retrieve(
-  "ACM",
-  function(err, coupon) {
-    // asynchronously called
-    console.log(coupon);
-  }
-);
+app.listen(8000);

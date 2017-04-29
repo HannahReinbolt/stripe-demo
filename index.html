@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html class="stripe-html">
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-    <meta content='IE=edge' http-equiv='X-UA-Compatible'>
-    <meta content='width=device-width, initial-scale=1' name='viewport'>
     <title>SignUps</title>
 
   <!-- Libraries and linked files -->
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="google-sheet.js" type="text/javascript"></script>
+  <script src="app.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 
 </head>
-<body class="stripe-body">
+<body>
 <!-- a Stripe Elements and Node.js implementation of Stripe -->
 
 <!-- Name and Email collection to be pushed to Google Spreadsheets -->
@@ -43,12 +41,13 @@
   <!-- Submit button -->
   <button>Submit</button>
 </form>
+</body>
 
 <!--Script that handles pushing name and email to google 
 spreadsheet-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <!-- Custom Theme JavaScript -->
-  <script src='google-sheet.js'></script>
+  <!-- Custom Theme JavaScript 
+  <script src='google-sheet.js'></script>-->
 
 <!--**************************************************
 Script that handles the Stripe tokenization and charging 
@@ -99,49 +98,9 @@ card.addEventListener('change', function(event) {
 });
 
 // Handle form submission
-
-    // Token is created using Stripe.js or Checkout!
-    // // Get the payment token submitted by the form:
-    // var token = request.body.stripeToken.id; // Using Express
-
-    // // Charge the user's card:
-    // var charge = stripe.charges.create({
-    //   amount: 1000,
-    //   currency: "usd",
-    //   description: "Example charge",
-    //   source: token,
-    // }, function(err, charge) {
-    //   // asynchronously called
-    // },
-    // console.log("Charge created!"));
-    // Handle form submission
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {
   event.preventDefault();
-
-  let real_amount = 5000;
-  if(document.getElementById("coupon").value === "ACM"){
-    real_amount = 4500;
-  }else{
-    real_amount = 5000;
-  }
-
-  // var token = request.body.stripeToken.id; // Using Express
-
-  //   // Charge the user's card:
-  //   var charge = stripe.charges.create({
-  //     amount: real_amount,
-  //     currency: "usd",
-  //     description: "Example charge",
-  //     source: token,
-  //   }, function(err, charge) {
-  //     // asynchronously called
-  //       if (err && err.type === 'StripeCardError') {
-  //           console.log(JSON.stringify(err, null, 2));
-  //       }
-  //       console.log("Completed payment!");
-  //       alert("Paid: "+JSON.stringify(real_amount))
-  //   });
 
   stripe.createToken(card).then(function(result) {
     if (result.error) {
@@ -155,7 +114,6 @@ form.addEventListener('submit', function(event) {
   });
 });  
   
-
 function stripeTokenHandler(token) {
   // Insert the token ID into the form so it gets submitted to the server
   var form = document.getElementById('payment-form');
@@ -167,9 +125,7 @@ function stripeTokenHandler(token) {
 
   // Submit the form, uncomment
   alert("Created a token with value: "+token.id)
-  form.submit();
+  //form.submit();
 }   
-
 </script>
-</body>
 </html>
