@@ -41,7 +41,6 @@
   <!-- Submit button -->
   <button>Submit</button>
 </form>
-</body>
 
 <!--Script that handles pushing name and email to google 
 spreadsheet-->
@@ -55,9 +54,10 @@ Script that handles the Stripe tokenization and charging
 Refer to stripe.com for details
 Example: http://jsbin.com/dukecivela/edit?html,css,console,output
 ******************************************************-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 //Create a Stripe client
-var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+//created in app.js
 
 // Create an instance of Elements
 var elements = stripe.elements();
@@ -98,10 +98,21 @@ card.addEventListener('change', function(event) {
 });
 
 // Handle form submission
-var form = document.getElementById('payment-form');
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
+function stripeTokenHandler(token) {
+  // Insert the token ID into the form so it gets submitted to the server
+  var form = document.getElementById('payment-form');
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeToken');
+  hiddenInput.setAttribute('value', token.id);
+  form.appendChild(hiddenInput);
 
+  // Submit the form
+  console.log(JSON.stringify(hiddenInput));
+  form.submit();
+}
+
+function createToken() {
   stripe.createToken(card).then(function(result) {
     if (result.error) {
       // Inform the user if there was an error
@@ -112,20 +123,15 @@ form.addEventListener('submit', function(event) {
       stripeTokenHandler(result.token);
     }
   });
-});  
-  
-function stripeTokenHandler(token) {
-  // Insert the token ID into the form so it gets submitted to the server
-  var form = document.getElementById('payment-form');
-  var hiddenInput = document.createElement('input');
-  hiddenInput.setAttribute('type', 'hidden');
-  hiddenInput.setAttribute('name', 'stripeToken');
-  hiddenInput.setAttribute('value', token.id);
-  form.appendChild(hiddenInput);
+};
 
-  // Submit the form, uncomment
-  alert("Created a token with value: "+token.id)
-  //form.submit();
-}   
+// Create a token when the form is submitted.
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  createToken();
+});
 </script>
+
+</body>
 </html>
