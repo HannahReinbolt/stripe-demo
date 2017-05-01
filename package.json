@@ -1,9 +1,0 @@
-{
-	"main": "app.js",
-	"dependencies": {
-		"express":"",
-		"stripe":"",
-		"body-parser":"",
-		"pug":""
-	}
-}
