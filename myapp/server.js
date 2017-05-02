@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(express.static('website'));
 
 app.get("/", (req, res) =>
-  res.render("index.html", {keyPublishable}));
+  res.render("index2.html", {keyPublishable}));
 
 app.get('/success', function(req, res){
     res.render('success.html',{
