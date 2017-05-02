@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 app.use(express.static('website'));
 
 app.get("/", (req, res) =>
-  res.render("index2.html", {keyPublishable}));
+  res.render("https://acmsigsec.mst.edu/myapp/website/index2.html", {keyPublishable}));
 
 app.get('/success', function(req, res){
-    res.render('success.html',{
+    res.render('https://acmsigsec.mst.edu/myapp/website/success.html',{
 
     });
 });
@@ -46,7 +46,7 @@ app.post('/charge', function(req, res) {
     });
     console.log("your payment passed");
     console.log("your amount was"+JSON.stringify(real_amount));
-    res.redirect('/success.html');
+    res.redirect('/success');
 });
 app.listen(3000);
 
