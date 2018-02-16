@@ -2,8 +2,8 @@
 //npm install nodemon -g
 
 console.log("server is starting.");
-const keyPublishable = "pk_test_6pRNASCoBOKtIshFeQd4XMUh";
-const keySecret = "sk_test_BQokikJOvBiI2HlWgH4olfQ2";
+const keyPublishable = "put test key here";
+const keySecret = "put test key here";
 
 //libraries
 const express = require('express');
@@ -49,9 +49,3 @@ app.post('/charge', function(req, res) {
     res.redirect('/success');
 });
 app.listen(3000);
-
-
-// const server = app.listen(3000, listening);
-// function listening(){
-//     console.log("listening....");
-// }
